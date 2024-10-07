@@ -1,20 +1,24 @@
 const { Sequelize } = require("sequelize")
 require("dotenv").config()
 
-const sequelize = new Sequelize(
+const db = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USERNAME,
     process.env.DB_PASSWORD,
     {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
-        dialect: 'mysql'
+        dialect: 'mysql',
+        define: {
+            freezeTableName: true,
+            timestamps: false
+        }
     }
 )
 
 async function testarConexao() {
     try {
-        await sequelize.authenticate()  
+        await db.authenticate()  
         console.log('Conexão com o banco de dados estabelecida com sucesso!')
     } catch (error) {
         console.error('Não foi possível conectar ao banco de dados:', error)
@@ -23,4 +27,4 @@ async function testarConexao() {
 
 testarConexao()
 
-module.exports = sequelize
+module.exports = db
