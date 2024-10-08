@@ -6,28 +6,29 @@ class Passageiro extends Model {}
 Passageiro.init(
   {
     id:{
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
     },
     nome: {
-    type: DataTypes.STRING,
-    allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     email: {
-    type: DataTypes.STRING
+      type: DataTypes.STRING
     },
     telefone: {
-    type: DataTypes.STRING
+      type: DataTypes.STRING
     },
     senha: {
-    type: DataTypes.STRING,
-    allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false
     },
     data_cadastro: {
-    type: DataTypes.DATE,
-    allowNull: false
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false
     }
   },
   {
