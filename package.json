@@ -1,11 +1,11 @@
 {
   "name": "api-zeos-van",
-  "version": "0.1.0",
+  "version": "0.1.11",
   "description": "API para o aplicativo Zeos Van",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -22,10 +22,12 @@
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.4"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0"
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.1.7"
   }
 }

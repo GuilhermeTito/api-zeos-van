@@ -1,5 +1,5 @@
 const Motorista = require("../../model/motorista")
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt")
 
 const cadastrarMotorista = async (req, res) => {
     try {

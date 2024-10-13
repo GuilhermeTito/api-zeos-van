@@ -33,7 +33,7 @@ Passageiro.init(
   },
   {
     sequelize: db,
-    modelName: 'passageiro'
+    modelName: "passageiro"
   }
 );
 

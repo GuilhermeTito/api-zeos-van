@@ -33,7 +33,7 @@ Motorista.init(
   },
   {
     sequelize: db,
-    modelName: 'motorista'
+    modelName: "motorista"
   }
 );
 

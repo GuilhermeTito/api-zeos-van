@@ -1,5 +1,5 @@
 const Passageiro = require("../../model/passageiro")
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt")
 
 const cadastrarPassageiro = async (req, res) => {
     try {
