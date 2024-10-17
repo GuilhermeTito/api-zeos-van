@@ -20,4 +20,4 @@ app.use("/passageiro", rotasPassageiro)
 
 app.use("/motorista", rotasMotorista)
 
-app.listen(process.env.API_PORT)
+app.listen(process.env.API_PORT, process.env.API_HOST)
