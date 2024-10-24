@@ -19,4 +19,18 @@ const cadastrarMotorista = async (req, res) => {
     }
 }
 
-module.exports = { cadastrarMotorista }
+const emailJaCadastrado = async (req, res) => {
+    const motorista = await Motorista.findOne({
+        where: {
+            email: req.body.email
+        }
+    })
+
+    if(motorista != null){
+        res.sendStatus(200)
+    } else {
+        res.sendStatus(404)
+    }
+}
+
+module.exports = { cadastrarMotorista, emailJaCadastrado }
