@@ -41,3 +41,5 @@ ViagemMarcada.init(
         modelName: "viagem_marcada"
     }
 )
+
+module.exports = ViagemMarcada

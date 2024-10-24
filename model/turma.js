@@ -14,6 +14,10 @@ Turma.init(
         id_motorista: {
             type: DataTypes.INTEGER,
             allowNull: false,
+        },
+        nome: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     },
     {
@@ -21,3 +25,5 @@ Turma.init(
         modelName: "turma"
     }
 )
+
+module.exports = Turma

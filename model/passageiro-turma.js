@@ -21,3 +21,5 @@ PassageiroTurma.init(
         modelName: "passageiro_turma"
     }
 )
+
+module.exports = PassageiroTurma
