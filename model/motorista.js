@@ -5,7 +5,7 @@ class Motorista extends Model {}
 
 Motorista.init(
   {
-    id:{
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
