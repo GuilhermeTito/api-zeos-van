@@ -1,6 +1,6 @@
 {
   "name": "api-zeos-van",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "description": "API para o aplicativo Zeos Van",
   "main": "index.js",
   "scripts": {
