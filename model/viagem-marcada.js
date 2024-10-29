@@ -23,12 +23,28 @@ ViagemMarcada.init(
             type: DataTypes.STRING,
             allowNull: false
         },
+        latitude_partida: {
+            type: DataTypes.DOUBLE,
+            allowNull: false
+        },
+        longitude_partida: {
+            type: DataTypes.DOUBLE,
+            allowNull: false
+        },
         horario_partida: {
             type: DataTypes.TIME,
             allowNull: false
         },
         ponto_chegada: {
             type: DataTypes.STRING,
+            allowNull: false
+        },
+        latitude_chegada: {
+            type: DataTypes.DOUBLE,
+            allowNull: false
+        },
+        longitude_chegada: {
+            type: DataTypes.DOUBLE,
             allowNull: false
         },
         horario_chegada: {

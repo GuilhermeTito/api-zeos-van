@@ -9,7 +9,15 @@ const cadastrarPassageiro = async (req, res) => {
             nome: req.body.nome,
             email: req.body.email,
             telefone: req.body.telefone,
-            senha: senhaCriptografada
+            senha: senhaCriptografada,
+            ponto_partida_padrao: req.body.ponto_partida_padrao,
+            latitude_partida_padrao: req.body.latitude_partida_padrao,
+            longitude_partida_padrao: req.body.longitude_partida_padrao,
+            horario_partida_padrao: req.body.horario_partida_padrao,
+            ponto_chegada_padrao: req.body.ponto_chegada_padrao,
+            latitude_chegada_padrao: req.body.latitude_chegada_padrao,
+            longitude_chegada_padrao: req.body.longitude_chegada_padrao,
+            horario_chegada_padrao: req.body.horario_chegada_padrao
         })
         
         res.sendStatus(201)

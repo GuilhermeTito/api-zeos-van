@@ -35,11 +35,23 @@ Passageiro.init(
         ponto_partida_padrao: {
             type: DataTypes.STRING,
         },
+        latitude_partida_padrao: {
+            type: DataTypes.DOUBLE
+        },
+        longitude_partida_padrao: {
+            type: DataTypes.DOUBLE
+        },
         horario_partida_padrao:{
             type: DataTypes.TIME
         },
         ponto_chegada_padrao: {
             type: DataTypes.STRING
+        },
+        latitude_chegada_padrao: {
+            type: DataTypes.DOUBLE
+        },
+        longitude_chegada_padrao: {
+            type: DataTypes.DOUBLE
         },
         horario_chegada_padrao: {
             type: DataTypes.TIME
