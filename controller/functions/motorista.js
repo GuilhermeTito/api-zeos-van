@@ -19,6 +19,38 @@ const cadastrarMotorista = async (req, res) => {
     }
 }
 
+const atualizarMotorista = async (req, res) => {
+    const motorista = await Motorista.findOne({
+        where: {
+            [Op.or]: {
+                id: req.body.id,
+                email: req.body.email
+            }
+        }
+    })
+
+    if(motorista != null){
+        res.sendStatus(200)
+    } else {
+        res.sendStatus(404)
+    }
+
+    try {
+        senhaCriptografada = await bcrypt.hash(req.body.senha, 12)
+
+        await motorista.update({
+            nome: req.body.nome,
+            telefone: req.body.telefone,
+            senha: senhaCriptografada
+        })
+        
+        res.sendStatus(200)
+    } catch (error) {
+        res.sendStatus(400)
+        console.log(error)
+    }
+}
+
 const emailJaCadastrado = async (req, res) => {
     const motorista = await Motorista.findOne({
         where: {
@@ -33,4 +65,4 @@ const emailJaCadastrado = async (req, res) => {
     }
 }
 
-module.exports = { cadastrarMotorista, emailJaCadastrado }
+module.exports = { cadastrarMotorista, atualizarMotorista, emailJaCadastrado }
