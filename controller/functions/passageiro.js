@@ -18,7 +18,11 @@ const buscarPassageiro = async (req, res) => {
         id: passageiro.id,
         nome: passageiro.nome,
         email: passageiro.email,
-        telefone: passageiro.telefone
+        telefone: passageiro.telefone,
+        ponto_partida_padrao: passageiro.ponto_partida_padrao,
+        horario_partida_padrao: passageiro.horario_partida_padrao,
+        ponto_chegada_padrao: passageiro.ponto_chegada_padrao,
+        horario_chegada_padrao: passageiro.horario_chegada_padrao
     }
 
     res.status(200).send(objetoRetono)
@@ -53,10 +57,7 @@ const cadastrarPassageiro = async (req, res) => {
 const atualizarPassageiro = async (req, res) => {
     const passageiro = await Passageiro.findOne({
         where: {
-            [Op.or]: {
-                id: req.body.id,
-                email: req.body.email
-            }
+            id: req.query.id
         }
     })
 
