@@ -2,6 +2,28 @@ const { Op } = require("sequelize")
 const Passageiro = require("../../model/passageiro")
 const bcrypt = require("bcrypt")
 
+const buscarPassageiro = async (req, res) => {    
+    const passageiro = await Passageiro.findOne({
+        where: {
+            id: req.query.id
+        }
+    })
+
+    if(passageiro == null){
+        res.sendStatus(404)
+        return
+    }
+
+    const objetoRetono = {
+        id: passageiro.id,
+        nome: passageiro.nome,
+        email: passageiro.email,
+        telefone: passageiro.telefone
+    }
+
+    res.status(200).send(objetoRetono)
+}
+
 const cadastrarPassageiro = async (req, res) => {
     try {
         senhaCriptografada = await bcrypt.hash(req.body.senha, 12)
@@ -69,17 +91,22 @@ const atualizarPassageiro = async (req, res) => {
 }
 
 const emailJaCadastrado = async (req, res) => {
-    const passageiro = await Passageiro.findOne({
-        where: {
-            email: req.body.email
-        }
-    })
+    try {
+        const passageiro = await Passageiro.findOne({
+            where: {
+                email: req.query.email
+            }
+        })
 
-    if(passageiro != null){
-        res.sendStatus(200)
-    } else {
-        res.sendStatus(404)
+        if(passageiro != null){
+            res.sendStatus(200)
+        } else {
+            res.sendStatus(404)
+        }
+    } catch (error) {
+        res.sendStatus(400)
+        console.log(error)
     }
 }
 
-module.exports = { cadastrarPassageiro, atualizarPassageiro, emailJaCadastrado }
+module.exports = { buscarPassageiro, cadastrarPassageiro, atualizarPassageiro, emailJaCadastrado }

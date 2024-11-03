@@ -1,5 +1,28 @@
+const { Op } = require("sequelize")
 const Motorista = require("../../model/motorista")
 const bcrypt = require("bcrypt")
+
+const buscarMotorista = async (req, res) => {    
+    const motorista = await Motorista.findOne({
+        where: {
+            id: req.query.id
+        }
+    })
+
+    if(motorista == null){
+        res.sendStatus(404)
+        return
+    }
+
+    const objetoRetono = {
+        id: motorista.id,
+        nome: motorista.nome,
+        email: motorista.email,
+        telefone: motorista.telefone
+    }
+
+    res.status(200).send(objetoRetono)
+}
 
 const cadastrarMotorista = async (req, res) => {
     try {
@@ -52,17 +75,22 @@ const atualizarMotorista = async (req, res) => {
 }
 
 const emailJaCadastrado = async (req, res) => {
-    const motorista = await Motorista.findOne({
-        where: {
-            email: req.body.email
-        }
-    })
+    try {
+        const motorista = await Motorista.findOne({
+            where: {
+                email: req.query.email
+            }
+        })
 
-    if(motorista != null){
-        res.sendStatus(200)
-    } else {
-        res.sendStatus(404)
+        if(motorista != null){
+            res.sendStatus(200)
+        } else {
+            res.sendStatus(404)
+        }
+    } catch (error) {
+        res.sendStatus(400)
+        console.log(error)
     }
 }
 
-module.exports = { cadastrarMotorista, atualizarMotorista, emailJaCadastrado }
+module.exports = { buscarMotorista, cadastrarMotorista, atualizarMotorista, emailJaCadastrado }
