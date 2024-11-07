@@ -61,19 +61,15 @@ const atualizarPassageiro = async (req, res) => {
         }
     })
 
-    if(passageiro != null){
-        res.sendStatus(200)
-    } else {
+    if(passageiro == null){
         res.sendStatus(404)
+        return
     }
 
     try {
-        senhaCriptografada = await bcrypt.hash(req.body.senha, 12)
-
         await passageiro.update({
             nome: req.body.nome,
             telefone: req.body.telefone,
-            senha: senhaCriptografada,
             ponto_partida_padrao: req.body.ponto_partida_padrao,
             latitude_partida_padrao: req.body.latitude_partida_padrao,
             longitude_partida_padrao: req.body.longitude_partida_padrao,
