@@ -1,9 +1,26 @@
 const ViagemMarcada = require("../../model/viagem-marcada")
 
+const buscarViagemMarcada = async (req, res) => {    
+    console.log(req.query.data_viagem)
+    
+    const viagem = await ViagemMarcada.findOne({
+        where: {
+            id_passageiro: req.query.id_passageiro,
+            data_viagem: req.query.data_viagem
+        }
+    })
+
+    if(viagem == null){
+        res.sendStatus(404)
+        return
+    }
+
+    res.status(200).send(viagem)
+}
+
 const cadastrarViagemMarcada = async (req, res) => {
     try {        
         await ViagemMarcada.create({
-            id: req.body.id,
             id_passageiro: req.body.id_passageiro,
             data_viagem: req.body.data_viagem,
             ponto_partida: req.body.ponto_partida,
@@ -26,14 +43,14 @@ const cadastrarViagemMarcada = async (req, res) => {
 const atualizarViagemMarcada = async (req, res) => {
     const viagemMarcada = await ViagemMarcada.findOne({
         where: {
-            email: req.body.email
+            id_passageiro: req.query.id_passageiro,
+            data_viagem: req.query.data_viagem
         }
     })
 
-    if(viagemMarcada != null){
-        res.sendStatus(200)
-    } else {
+    if(viagemMarcada == null){
         res.sendStatus(404)
+        return
     }
 
     try {
@@ -60,7 +77,7 @@ const excluirViagemMarcada = async (req, res) => {
     try {
         await ViagemMarcada.destroy({
             where: {
-                id: req.body.id
+                id: req.query.id
             }
         })
 
@@ -71,4 +88,4 @@ const excluirViagemMarcada = async (req, res) => {
     }
 }
 
-module.exports = { cadastrarViagemMarcada, atualizarViagemMarcada, excluirViagemMarcada }
+module.exports = { buscarViagemMarcada, cadastrarViagemMarcada, atualizarViagemMarcada, excluirViagemMarcada }

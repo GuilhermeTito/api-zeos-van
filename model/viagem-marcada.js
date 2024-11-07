@@ -16,7 +16,7 @@ ViagemMarcada.init(
             allowNull: false,
         },
         data_viagem: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false
         },
         ponto_partida: {
