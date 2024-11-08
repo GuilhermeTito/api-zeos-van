@@ -1,21 +1,33 @@
 const ViagemMarcada = require("../../model/viagem-marcada")
 
-const buscarViagemMarcada = async (req, res) => {    
-    console.log(req.query.data_viagem)
-    
-    const viagem = await ViagemMarcada.findOne({
-        where: {
-            id_passageiro: req.query.id_passageiro,
-            data_viagem: req.query.data_viagem
+const buscarViagemMarcada = async (req, res) => {
+    try {
+        let viagem
+
+        if(req.query.id != null){
+            viagem = await ViagemMarcada.findOne({
+                where: {
+                    id: req.query.id
+                }
+            })
+        } else {
+            viagem = await ViagemMarcada.findOne({
+                where: {
+                    id_passageiro: req.query.id_passageiro,
+                    data_viagem: req.query.data_viagem
+                }
+            })
         }
-    })
 
-    if(viagem == null){
-        res.sendStatus(404)
-        return
+        if(viagem == null){
+            res.sendStatus(404)
+            return
+        }
+
+        res.status(200).send(viagem)
+    } catch (error) {
+        res.sendStatus(400)
     }
-
-    res.status(200).send(viagem)
 }
 
 const buscarTodasAsViagensMarcadas = async (req, res) => {    
