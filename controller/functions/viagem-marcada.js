@@ -18,6 +18,24 @@ const buscarViagemMarcada = async (req, res) => {
     res.status(200).send(viagem)
 }
 
+const buscarTodasAsViagensMarcadas = async (req, res) => {    
+    console.log(req.query.data_viagem)
+    
+    const viagem = await ViagemMarcada.findAll({
+        where: {
+            id_passageiro: req.query.id_passageiro
+        },
+        order: ["data_viagem"]
+    })
+
+    if(viagem == null){
+        res.sendStatus(404)
+        return
+    }
+
+    res.status(200).send(viagem)
+}
+
 const cadastrarViagemMarcada = async (req, res) => {
     try {        
         await ViagemMarcada.create({
@@ -88,4 +106,4 @@ const excluirViagemMarcada = async (req, res) => {
     }
 }
 
-module.exports = { buscarViagemMarcada, cadastrarViagemMarcada, atualizarViagemMarcada, excluirViagemMarcada }
+module.exports = { buscarViagemMarcada, buscarTodasAsViagensMarcadas, cadastrarViagemMarcada, atualizarViagemMarcada, excluirViagemMarcada }
