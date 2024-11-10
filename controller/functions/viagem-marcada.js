@@ -2,16 +2,16 @@ const ViagemMarcada = require("../../model/viagem-marcada")
 
 const buscarViagemMarcada = async (req, res) => {
     try {
-        let viagem
+        let viagemMarcada
 
         if(req.query.id != null){
-            viagem = await ViagemMarcada.findOne({
+            viagemMarcada = await ViagemMarcada.findOne({
                 where: {
                     id: req.query.id
                 }
             })
         } else {
-            viagem = await ViagemMarcada.findOne({
+            viagemMarcada = await ViagemMarcada.findOne({
                 where: {
                     id_passageiro: req.query.id_passageiro,
                     data_viagem: req.query.data_viagem
@@ -19,20 +19,18 @@ const buscarViagemMarcada = async (req, res) => {
             })
         }
 
-        if(viagem == null){
+        if(viagemMarcada == null){
             res.sendStatus(404)
             return
         }
 
-        res.status(200).send(viagem)
+        res.status(200).send(viagemMarcada)
     } catch (error) {
         res.sendStatus(400)
     }
 }
 
-const buscarTodasAsViagensMarcadas = async (req, res) => {    
-    console.log(req.query.data_viagem)
-    
+const buscarTodasAsViagensMarcadas = async (req, res) => {       
     const viagem = await ViagemMarcada.findAll({
         where: {
             id_passageiro: req.query.id_passageiro
@@ -71,19 +69,29 @@ const cadastrarViagemMarcada = async (req, res) => {
 }
 
 const atualizarViagemMarcada = async (req, res) => {
-    const viagemMarcada = await ViagemMarcada.findOne({
-        where: {
-            id_passageiro: req.query.id_passageiro,
-            data_viagem: req.query.data_viagem
+    try {    
+        let viagemMarcada
+
+        if(req.query.id != null){
+            viagemMarcada = await ViagemMarcada.findOne({
+                where: {
+                    id: req.query.id
+                }
+            })
+        } else {
+            viagemMarcada = await ViagemMarcada.findOne({
+                where: {
+                    id_passageiro: req.query.id_passageiro,
+                    data_viagem: req.query.data_viagem
+                }
+            })
         }
-    })
 
-    if(viagemMarcada == null){
-        res.sendStatus(404)
-        return
-    }
+        if(viagemMarcada == null){
+            res.sendStatus(404)
+            return
+        }
 
-    try {
         await viagemMarcada.update({
             data_viagem: req.body.data_viagem,
             ponto_partida: req.body.ponto_partida,
