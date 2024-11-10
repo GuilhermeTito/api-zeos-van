@@ -48,9 +48,16 @@ const buscarTodasAsViagensMarcadas = async (req, res) => {
 
 const cadastrarViagemMarcada = async (req, res) => {
     try {        
+        let vai_no_dia = 0
+        
+        if(req.body.vai_no_dia){
+            vai_no_dia = 1
+        }
+
         await ViagemMarcada.create({
             id_passageiro: req.body.id_passageiro,
             data_viagem: req.body.data_viagem,
+            vai_no_dia: vai_no_dia,
             ponto_partida: req.body.ponto_partida,
             latitude_partida: req.body.latitude_partida,
             longitude_partida: req.body.longitude_partida,
@@ -92,8 +99,15 @@ const atualizarViagemMarcada = async (req, res) => {
             return
         }
 
+        let vai_no_dia = 0
+        
+        if(req.body.vai_no_dia){
+            vai_no_dia = 1
+        }
+
         await viagemMarcada.update({
             data_viagem: req.body.data_viagem,
+            vai_no_dia: vai_no_dia,
             ponto_partida: req.body.ponto_partida,
             latitude_partida: req.body.latitude_partida,
             longitude_partida: req.body.longitude_partida,

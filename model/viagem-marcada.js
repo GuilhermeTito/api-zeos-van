@@ -19,6 +19,10 @@ ViagemMarcada.init(
             type: DataTypes.DATEONLY,
             allowNull: false
         },
+        vai_no_dia: {
+            type: DataTypes.TINYINT,
+            allowNull: false
+        },
         ponto_partida: {
             type: DataTypes.STRING,
             allowNull: false
