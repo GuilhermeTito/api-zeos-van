@@ -1,4 +1,23 @@
 const PassageiroTurma = require("../../model/passageiro-turma")
+const Passageiro = require("../../model/passageiro")
+
+const buscarTodosOsPassageiroTurma = async (req, res) => {
+    const passageirosTurma = await PassageiroTurma.findAll({
+        where: {
+            id_turma: req.query.id_turma
+        },
+        include: [{
+            model: Passageiro
+        }]
+    })
+
+    if(passageirosTurma == null){
+        res.sendStatus(404)
+        return
+    }
+
+    res.status(200).send(passageirosTurma)
+}
 
 const cadastrarPassageiroTurma = async (req, res) => {
     try {        
@@ -14,4 +33,4 @@ const cadastrarPassageiroTurma = async (req, res) => {
     }
 }
 
-module.exports = { cadastrarPassageiroTurma }
+module.exports = { buscarTodosOsPassageiroTurma, cadastrarPassageiroTurma }

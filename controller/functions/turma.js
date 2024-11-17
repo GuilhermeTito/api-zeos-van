@@ -1,5 +1,21 @@
 const Turma = require("../../model/turma")
 
+const buscarTodasAsTurmas = async (req, res) => {
+    const turmas = await Turma.findAll({
+        where: {
+            id_motorista: req.query.id_motorista
+        },
+        order: ["id"]
+    })
+
+    if(turmas == null){
+        res.sendStatus(404)
+        return
+    }
+
+    res.status(200).send(turmas)
+}
+
 const cadastrarTurma = async (req, res) => {
     try {        
         await Turma.create({
@@ -48,4 +64,4 @@ const excluirTurma = async (req, res) => {
     }
 }
 
-module.exports = { cadastrarTurma, atualizarTurma, excluirTurma }
+module.exports = { buscarTodasAsTurmas, cadastrarTurma, atualizarTurma, excluirTurma }

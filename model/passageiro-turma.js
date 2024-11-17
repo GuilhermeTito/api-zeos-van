@@ -1,5 +1,6 @@
 const db = require("./conexao")
 const { DataTypes, Model } = require("sequelize")
+const Passageiro = require("./passageiro")
 
 class PassageiroTurma extends Model {}
 
@@ -21,5 +22,8 @@ PassageiroTurma.init(
         modelName: "passageiro_turma"
     }
 )
+
+Passageiro.hasMany(PassageiroTurma, { foreignKey: 'id_passageiro' })
+PassageiroTurma.belongsTo(Passageiro, { foreignKey: 'id_passageiro' })
 
 module.exports = PassageiroTurma
