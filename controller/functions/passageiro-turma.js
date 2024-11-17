@@ -33,4 +33,20 @@ const cadastrarPassageiroTurma = async (req, res) => {
     }
 }
 
-module.exports = { buscarTodosOsPassageiroTurma, cadastrarPassageiroTurma }
+const deletarPassageiroTurma = async (req, res) => {
+    try {
+        await PassageiroTurma.destroy({
+            where: {
+                id_turma: req.body.id_turma,
+                id_passageiro: req.body.id_passageiro
+            }
+        })
+
+        res.sendStatus(200)
+    } catch (error) {
+        res.sendStatus(400)
+        console.log(error)
+    }
+}
+
+module.exports = { buscarTodosOsPassageiroTurma, cadastrarPassageiroTurma,deletarPassageiroTurma }
