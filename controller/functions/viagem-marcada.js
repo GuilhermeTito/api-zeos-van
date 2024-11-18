@@ -65,9 +65,61 @@ const buscarTodasAsViagensMarcadasPorMotorista = async (req, res) => {
             return
         }
 
-        console.log(viagens)
-
         res.status(200).send(viagens)    
+    } catch (error) {
+        res.sendStatus(400)
+        console.log(error)
+    }
+}
+
+const buscarCoordenadasPorTurmaEData = async (req, res) => {
+    try {
+        const coordenadas = await db.query(
+            "SELECT DISTINCT  " +
+            "    IF(horario_vm IS NOT NULL, horario_vm, horario_padrao) as horario, " +
+            "    if(latitude_vm is not null, latitude_vm, latitude_padrao) as latitude, " +
+            "    if(longitude_vm is not null, longitude_vm, longitude_padrao) as longitude " +
+            "from " +
+            "( " +
+            "    SELECT DISTINCT coord_padrao.id_passageiro, coord_padrao.horario_padrao, coord_padrao.latitude_padrao, coord_padrao.longitude_padrao, coord_padrao.tipo, if(coord_vm.vai_no_dia is not null, coord_vm.vai_no_dia, 1) as vai_no_dia, coord_vm.horario_vm, coord_vm.latitude_vm, coord_vm.longitude_vm " +
+            "    from " +
+            "    ( " +
+            "        SELECT p.id as id_passageiro, p.horario_partida_padrao as horario_padrao, p.latitude_partida_padrao as latitude_padrao, p.longitude_partida_padrao as longitude_padrao, 'partida' as tipo " +
+            "        from passageiro as p " +
+            "        where p.id in (select id_passageiro from passageiro_turma where id_turma = " + req.query.id_turma + ") " +
+            "        union " +
+            "        SELECT p.id as id_passageiro, p.horario_chegada_padrao as horario_padrao, p.latitude_chegada_padrao as latitude_padrao, p.longitude_chegada_padrao as longitude_padrao, 'chegada' as tipo " +
+            "        from passageiro as p " +
+            "        where p.id in (select id_passageiro from passageiro_turma where id_turma = " + req.query.id_turma + ") " +
+            "    ) as coord_padrao " +
+            "    left join " +
+            "    ( " +
+            "        SELECT DISTINCT vm.id_passageiro, vm.vai_no_dia, vm.horario_partida as horario_vm, vm.latitude_partida as latitude_vm, vm.longitude_partida as longitude_vm, 'partida' as tipo " +
+            "        FROM viagem_marcada AS vm " +
+            "        WHERE vm.id_passageiro in (select id_passageiro from passageiro_turma where id_turma = " + req.query.id_turma + ") " +
+            "            and vm.data_viagem = '" + req.query.data_viagem + "' " +
+            "        UNION " +
+            "        SELECT DISTINCT vm.id_passageiro, vm.vai_no_dia, vm.horario_chegada as horario_vm, vm.latitude_chegada as latitude_vm, vm.longitude_chegada as longitude_vm, 'chegada' as tipo " +
+            "        FROM viagem_marcada AS vm " +
+            "        WHERE vm.id_passageiro in (select id_passageiro from passageiro_turma where id_turma = " + req.query.id_turma + ") " +
+            "            and vm.data_viagem = '" + req.query.data_viagem + "' " +
+            "    ) as coord_vm " +
+            "    on coord_padrao.id_passageiro = coord_vm.id_passageiro " +
+            "    and coord_padrao.tipo = coord_vm.tipo " +
+            ") as coordenadas " +
+            "where vai_no_dia = 1 " +
+            "order by horario;",
+            { type: QueryTypes.SELECT }
+        )
+
+        if(coordenadas == null){
+            res.sendStatus(404)
+            return
+        }
+
+        console.log(coordenadas)
+
+        res.status(200).send(coordenadas)    
     } catch (error) {
         res.sendStatus(400)
         console.log(error)
@@ -172,6 +224,7 @@ module.exports = {
     buscarViagemMarcada,
     buscarTodasAsViagensMarcadas,
     buscarTodasAsViagensMarcadasPorMotorista,
+    buscarCoordenadasPorTurmaEData,
     cadastrarViagemMarcada,
     atualizarViagemMarcada,
     excluirViagemMarcada
