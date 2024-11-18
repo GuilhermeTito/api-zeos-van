@@ -18,6 +18,12 @@ Turma.init(
         nome: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        id_passageiro_origem: {
+            type: DataTypes.INTEGER
+        },
+        id_passageiro_destino: {
+            type:DataTypes.INTEGER
         }
     },
     {

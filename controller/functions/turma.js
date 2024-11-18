@@ -1,5 +1,25 @@
 const Turma = require("../../model/turma")
 
+const buscarTurma = async (req, res) => {
+    try {
+        const turma = await Turma.findOne({
+            where: {
+                id: req.query.id
+            }
+        })
+
+        if(turma == null){
+            res.sendStatus(404)
+            return
+        }
+
+        res.status(200).send(turma)    
+    } catch (error) {
+        res.sendStatus(400)
+        console.log(error)
+    }
+}
+
 const buscarTodasAsTurmas = async (req, res) => {
     const turmas = await Turma.findAll({
         where: {
@@ -39,7 +59,8 @@ const atualizarTurma = async (req, res) => {
 
     try {
         await turma.update({
-            nome: req.body.nome
+            id_passageiro_origem: req.body.id_passageiro_origem,
+            id_passageiro_destino: req.body.id_passageiro_destino
         })
         
         res.sendStatus(200)
@@ -64,4 +85,4 @@ const excluirTurma = async (req, res) => {
     }
 }
 
-module.exports = { buscarTodasAsTurmas, cadastrarTurma, atualizarTurma, excluirTurma }
+module.exports = { buscarTurma, buscarTodasAsTurmas, cadastrarTurma, atualizarTurma, excluirTurma }
