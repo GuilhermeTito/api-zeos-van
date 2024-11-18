@@ -50,26 +50,6 @@ const cadastrarTurma = async (req, res) => {
     }
 }
 
-const atualizarTurma = async (req, res) => {
-    const turma = await Turma.findOne({
-        where: {
-            id: req.body.id
-        }
-    })
-
-    try {
-        await turma.update({
-            id_passageiro_origem: req.body.id_passageiro_origem,
-            id_passageiro_destino: req.body.id_passageiro_destino
-        })
-        
-        res.sendStatus(200)
-    } catch (error) {
-        res.sendStatus(400)
-        console.log(error)
-    }
-}
-
 const excluirTurma = async (req, res) => {
     try {
         await Turma.destroy({
@@ -85,4 +65,4 @@ const excluirTurma = async (req, res) => {
     }
 }
 
-module.exports = { buscarTurma, buscarTodasAsTurmas, cadastrarTurma, atualizarTurma, excluirTurma }
+module.exports = { buscarTurma, buscarTodasAsTurmas, cadastrarTurma, excluirTurma }
