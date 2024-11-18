@@ -112,14 +112,20 @@ const buscarCoordenadasPorTurmaEData = async (req, res) => {
             { type: QueryTypes.SELECT }
         )
 
-        if(coordenadas == null){
+        if(coordenadas == null || coordenadas.length <= 0 ){
             res.sendStatus(404)
             return
         }
 
-        console.log(coordenadas)
+        const origem = coordenadas[0]
+        const destino = coordenadas[coordenadas.length - 1]
+        const waypoints = coordenadas.slice(1, coordenadas.length - 1)
 
-        res.status(200).send(coordenadas)    
+        res.status(200).send({
+            origem: origem,
+            destino: destino,
+            waypoints: waypoints
+        })
     } catch (error) {
         res.sendStatus(400)
         console.log(error)
