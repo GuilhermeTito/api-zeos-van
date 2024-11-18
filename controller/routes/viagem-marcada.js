@@ -5,6 +5,7 @@ const roteador = Router()
 
 roteador.get("/", funcoes.buscarViagemMarcada)
 roteador.get("/todas", funcoes.buscarTodasAsViagensMarcadas)
+roteador.get("/motorista", funcoes.buscarTodasAsViagensMarcadasPorMotorista)
 roteador.post("/", funcoes.cadastrarViagemMarcada)
 roteador.patch("/", funcoes.atualizarViagemMarcada)
 roteador.delete("/", funcoes.excluirViagemMarcada)

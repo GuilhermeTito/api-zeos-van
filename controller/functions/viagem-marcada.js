@@ -1,3 +1,5 @@
+const { QueryTypes } = require("sequelize")
+const db = require("../../model/conexao")
 const ViagemMarcada = require("../../model/viagem-marcada")
 
 const buscarViagemMarcada = async (req, res) => {
@@ -31,19 +33,45 @@ const buscarViagemMarcada = async (req, res) => {
 }
 
 const buscarTodasAsViagensMarcadas = async (req, res) => {       
-    const viagem = await ViagemMarcada.findAll({
-        where: {
-            id_passageiro: req.query.id_passageiro
-        },
-        order: ["data_viagem"]
-    })
+    try {
+        const viagens = await ViagemMarcada.findAll({
+            where: {
+                id_passageiro: req.query.id_passageiro
+            },
+            order: ["data_viagem"]
+        })
 
-    if(viagem == null){
-        res.sendStatus(404)
-        return
+        if(viagens == null){
+            res.sendStatus(404)
+            return
+        }
+
+        res.status(200).send(viagens)    
+    } catch (error) {
+        res.sendStatus(400)
+        console.log(error)
     }
+}
 
-    res.status(200).send(viagem)
+const buscarTodasAsViagensMarcadasPorMotorista = async (req, res) => {
+    try {
+        const viagens = await db.query(
+            "SELECT DISTINCT vm.*, p.nome FROM viagem_marcada AS vm INNER JOIN passageiro AS p ON vm.id_passageiro = p.id INNER JOIN passageiro_turma AS pt ON p.id = pt.id_passageiro INNER JOIN turma AS t ON pt.id_turma = t.id INNER JOIN motorista AS m ON t.id_motorista = m.id WHERE m.id = " + req.query.id_motorista + " ORDER BY data_viagem;",
+            { type: QueryTypes.SELECT }
+        )
+
+        if(viagens == null){
+            res.sendStatus(404)
+            return
+        }
+
+        console.log(viagens)
+
+        res.status(200).send(viagens)    
+    } catch (error) {
+        res.sendStatus(400)
+        console.log(error)
+    }
 }
 
 const cadastrarViagemMarcada = async (req, res) => {
@@ -140,4 +168,11 @@ const excluirViagemMarcada = async (req, res) => {
     }
 }
 
-module.exports = { buscarViagemMarcada, buscarTodasAsViagensMarcadas, cadastrarViagemMarcada, atualizarViagemMarcada, excluirViagemMarcada }
+module.exports = {
+    buscarViagemMarcada,
+    buscarTodasAsViagensMarcadas,
+    buscarTodasAsViagensMarcadasPorMotorista,
+    cadastrarViagemMarcada,
+    atualizarViagemMarcada,
+    excluirViagemMarcada
+}
