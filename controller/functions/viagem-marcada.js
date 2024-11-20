@@ -215,7 +215,7 @@ const excluirViagemMarcada = async (req, res) => {
     try {
         await ViagemMarcada.destroy({
             where: {
-                id: req.query.id
+                id: req.body.id
             }
         })
 
